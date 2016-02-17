@@ -19,6 +19,7 @@ RUN adduser --disabled-password --gecos "" yeoman; \
 ENV HOME /home/yeoman
 USER yeoman
 WORKDIR /home/yeoman
+VOLUME /home/yeoman
 # Expose the port
 EXPOSE 3000
 # Always run as the yeoman user
