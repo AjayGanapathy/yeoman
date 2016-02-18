@@ -25,6 +25,6 @@ WORKDIR /home/yeoman/src
 VOLUME /home/yeoman/src
 USER yeoman
 # Expose the port
-EXPOSE 3000
+EXPOSE 5000
 # Always run as the yeoman user
 CMD ["/bin/bash"]
