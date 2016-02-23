@@ -12,7 +12,6 @@ RUN apt-get install -yq curl \
   && apt-get -yq update \
   && npm install yo -g \
   && npm install -g generator-mcfly-ng2 \
-  && npm install gulp \
   && npm install bower \
   && npm update
 # Add a yeoman user because grunt doesn't like being root
