@@ -16,7 +16,10 @@ RUN apt-get install -yq curl \
   && curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash - \
   && apt-get -yq install nodejs \
   && apt-get -yq update \
-  && npm install yo -g \
+  && npm install -g yo \
+  gulp \
+  bower \
+  generator-gulp-angular \
   && npm update
 # Add a yeoman user because yeoman doesn't like being root
 # RUN apt-get -yq install bash
@@ -27,5 +30,6 @@ RUN mkdir /home/yeoman/src && chmod -R 777 /home/yeoman/src && chmod -R 777 /usr
 WORKDIR /home/yeoman/src
 VOLUME /home/yeoman/src
 USER yeoman
+EXPOSE 3000-3001
 # Always run as the yeoman user
 CMD ["/bin/bash"]
