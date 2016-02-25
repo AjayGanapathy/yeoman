@@ -23,7 +23,9 @@ RUN mkdir /home/yeoman/src && chmod -R 777 /home/yeoman/src
 WORKDIR /home/yeoman/src
 VOLUME /home/yeoman/src
 USER yeoman
-# Expose the port
+# Expose browsersync port
 EXPOSE 5000
+# Expose browsersync UI port
+EXPOSE 3001
 # Always run as the yeoman user
 CMD ["/bin/bash"]
