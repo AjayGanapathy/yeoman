@@ -33,13 +33,12 @@ RUN mkdir /home/yeoman/senior-studio-site \
   # set up a directory for global npm packages that does not require root access
   && mkdir /home/yeoman/.npm_global \
   && chmod -R 777 /home/yeoman
-#  && chmod -R 777 /usr
 ENV NPM_CONFIG_PREFIX /home/yeoman/.npm_global
 WORKDIR /home/yeoman/senior-studio-site
 VOLUME /home/yeoman/senior-studio-site
 #
 # allow the host machine to access browsersync on the guest machine
-EXPOSE 9000
+EXPOSE 3000-3001
 #
 # drop to yeoman user and a bash shell
 USER yeoman
