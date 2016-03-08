@@ -1,59 +1,34 @@
-## yeoman
-
-
-**Dockerfile** for base yeoman install, with a few generators pre-installed.
-
+# Dockerized-Yeoman
+This dockerfile builds a container with [yeoman](http://yeoman.io), [generator-gulp-angular](https://github.com/swiip/generator-gulp-angular#readme). I wrote this dockerfile because yeoman does not run as the root, and default docker containers run executables as root. This means that if you spin up a docker container and then try to run yeoman, [it will fail](https://github.com/yeoman/yeoman.github.io/issues/282).
 ### Installation
+1. [Set up Docker on Mac OS X.](https://docs.docker.com/mac/ "Docker for Mac Quick Start")
+2. Open the Docker CLI from within Kitematic ![Cursor pressing the ‘docker CLI’ button in the lower-left-hand corner of the kitematic window](https://i.imgur.com/quKAxcG.gif) 
+3. Then change the directory to the `yeoman-docker` folder in this project's root:
+```shell
+cd ~/my-repository/yeoman-docker
+```
+Replace `my-repository` with project's root. This folder should contain a file named `dockerfile`.
 
-1. Install [Docker](https://www.docker.io/).
-
-2. `docker run -i -t silarsis/yeoman`
-
-    (alternatively, build from github: `docker build -t="silarsis/yeoman" github.com/silarsis/yeoman`)
+4. Build the docker image with the following command:
+  ```shell
+  docker build .
+  ```
+  The output of this command should look like [this](https://asciinema.org/a/36633).
+5. Once the docker image has built, run it:
+  ```shell
+  docker run -dit my-image-hash
+  ```
+  Replace `my-image-hash` with the unique identifier that docker gave to your image after building it e.g. [`fa817ac6674d`](https://asciinema.org/a/36633?t=10&autoplay=0).
 
 ### Usage
 
-`docker run -i -t silarsis/yeoman`
+1. Sync your project's root folder to the docker container's shared volume with Kitematic ![Cursor switching to the docker container’s ‘settings’ tab, then selecting the ‘volumes’ sub-tab, and finally pressing the ‘change’ button next to the volume to connect](https://i.imgur.com/tdJd9qV.gif)
+2. Shell into the docker container. ![Cursor pressing the ‘exec’ button in kitematic](https://i.imgur.com/krIbsQg.gif)
+3. serve the site with the following command: 
+```shell
+gulp serve
+```
+4. Find the IP Address to which the site is being served in kitematic, and enter it into your browser’s URL bar to navigate to the running site. ![`gulp serve` command entered into the docker container shell, followed by cursor switching to the ‘settings’ tab and ‘ports’ sub-tab before hovering over the IP address listed under ‘configure ports’ ](https://i.imgur.com/uT14x81.gif)
 
-This will run the container and log you in as the "yeoman" user, ready to "yo".
-
-`docker run -i -t silarsis/yeoman -c grunt serve`
-
-This will run the grunt server inside the container.
 
 ### Notes
-
-"sudo" works - if you need root, `sudo -s` will get you there.
-
-The default grunt port (9000) is exposed by default.
-
-Docker hints:
-
-  - `docker start -a -i <containerid>` will restart a stopped container and re-attach you to the bash process
-  - `docker inspect -format '{{ .NetworkSettings.IPAddress }}' <containerid>` will give you the IP address of the currently running container
-  - `docker run -P -i -t silarsis/yeoman` will map port 9000 to a port on the host, and `docker port <containerid> 9000` will show you what port that ends up on
-
-This Dockerfile should provide a good base image for development work - as an example, based on the [Docker Node.js example](http://docs.docker.io/en/latest/examples/nodejs_web_app/), you could have a Dockerfile that looks like (**untested**, assumes your code is in the same directory as your Dockerfile):
-
-```
-  FROM silarsis/yeoman
-  MAINTAINER Kevin Littlejohn "kevin@littlejohn.id.au"
-  ADD . /src
-  RUN cd /src; npm install
-  EXPOSE 9000
-  USER yeoman
-  CMD ["grunt", "serve"]
-```
-
-and run with `docker build -t <username>/yeoman-dev .`; `docker run -P -d <username>/yeoman-dev`
-
-
-In application source, put in Gruntfile.js hostname:0.0.0.0 for expose port 9000 on the host for any IP:
-
-    connect: {
-      options: {
-        port: 9000,
-        // Change this to '0.0.0.0' to access the server from outside.
-        hostname: '0.0.0.0',
-        livereload: 35729
-      },
