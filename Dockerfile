@@ -18,9 +18,6 @@ RUN apt-get install -yq curl \
   && apt-get -yq install nodejs \
   && apt-get -yq update \
   && npm install -g yo \
-  gulp \
-  bower \
-  generator-gulp-angular \
   && npm update
 #
 # Add a yeoman user because yeoman doesn't like being root
@@ -29,16 +26,18 @@ RUN adduser --disabled-password --gecos "" --shell /bin/bash yeoman; \
 ENV HOME /home/yeoman
 #
 # set up a directory that will hold the files we sync from the host machine
-RUN mkdir /home/yeoman/senior-studio-site \
+RUN mkdir /home/yeoman/my-project-root \
   # set up a directory for global npm packages that does not require root access
   && mkdir /home/yeoman/.npm_global \
   && chmod -R 777 /home/yeoman
 ENV NPM_CONFIG_PREFIX /home/yeoman/.npm_global
-WORKDIR /home/yeoman/senior-studio-site
-VOLUME /home/yeoman/senior-studio-site
+WORKDIR /home/yeoman/my-project-root
+VOLUME /home/yeoman/my-project-root
 #
-# allow the host machine to access browsersync on the guest machine
-EXPOSE 3000-3001
+#---------------------------------------------------
+#You will need to uncomment the following line to expose the ports on which your generator serves web pages. For example, the gulp-angular generator serves webpages on ports 3000 and 3001, while other generators use port 9000.
+#EXPOSE 3000-3001
+#---------------------------------------------------
 #
 # drop to yeoman user and a bash shell
 USER yeoman
