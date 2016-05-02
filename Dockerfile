@@ -1,5 +1,5 @@
 #Build an image that can run generator-gulp-angular
-FROM ubuntu:latest
+FROM ubuntu:trusty
 MAINTAINER Ajay Ganapathy <lets.talk@designbyajay.com>
 RUN apt-get -yq update && apt-get -yq upgrade
 #
