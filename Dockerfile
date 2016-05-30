@@ -21,6 +21,7 @@ RUN apt-get install -yq curl \
   gulp \
   bower \
   generator-gulp-angular \
+	modernizr \
   && npm update
 #
 # Add a yeoman user because yeoman doesn't like being root
